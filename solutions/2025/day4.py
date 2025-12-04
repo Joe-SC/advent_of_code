@@ -36,7 +36,6 @@ def get_grid_dims(grid: list[list[str]]) -> tuple[int, int]:
 def count_adjacent_rolls(y: int, x: int, grid: list[list[str]],) -> int:
     rows, cols = get_grid_dims(grid)
     counter = 0
-    
     for dy, dx in NEIGHBOR_OFFSETS:
         ny, nx = y + dy, x + dx
         if 0 <= ny < rows and 0 <= nx < cols:
@@ -48,13 +47,10 @@ def count_adjacent_rolls(y: int, x: int, grid: list[list[str]],) -> int:
 def find_removable_rolls(grid: list[list[str]]) -> list[tuple[int, int]]:
     rows, cols = get_grid_dims(grid)
     removable = []
-    
     for y in range(rows):
         for x in range(cols):
-            if grid[y][x] == ROLL:
-                if count_adjacent_rolls(y, x, grid) < 4:
-                    removable.append((y, x))
-                    
+            if grid[y][x] == ROLL and count_adjacent_rolls(y, x, grid) < 4:
+                removable.append((y, x))            
     return removable
 
 def solve_part1(grid_str: str) -> int:
@@ -65,7 +61,6 @@ def solve_part1(grid_str: str) -> int:
 def solve_part2(grid_str: str) -> int:
     grid = parse_grid(grid_str)
     total_removed = 0
-    
     while True:
         removable_rolls = find_removable_rolls(grid)
         if not removable_rolls:
@@ -77,9 +72,6 @@ def solve_part2(grid_str: str) -> int:
             grid[y][x] = '.'
             
     return total_removed
-
-print(f"Part 1 Solution: {solve_part1(test_input)}")
-print(f"Part 2 Solution: {solve_part2(test_input)}")
 
 if __name__ == "__main__":
     day3_input = fetch_input_data(2025,4)
